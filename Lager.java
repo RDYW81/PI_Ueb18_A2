@@ -4,7 +4,7 @@ import java.util.function.*;
  * Lager-Klasse zur Verwaltung mehrerer Artikel, ihrer Anzahl und Preisgestaltung.
  * 
  * @author Roland Daidone, Michael Linn
- * @version 1.5
+ * @version 1.6
  */
 public class Lager
 {
@@ -37,7 +37,7 @@ public class Lager
         artikelDB = new Artikel[maxZahlArtikel];
         zahlArtikel = 0;
         artikelAnlegen(new Artikel(1000, "HalliGalli", 20, 20.0));
-        artikelAnlegen(new Buch(1100, "IchbinEinBuch", 25, 60.0, "HalliGalliTitel", "Picard", "SinnlosenVerlag"));
+        artikelAnlegen(new Buch(1100, "IchbinEinBuch", 25, 60.0, "Das Dilbert-Prinzip", "Dilbert, S. C.", "Remond Verlag"));
         artikelAnlegen(new CD(1200, "IchBinEineCD", 200, 20.0, "Guns' Roses", "Jungle", 10));
         artikelAnlegen(new DVD(1300, "IchBinEineDVD", 1000, 70.0, "Terminator", 120, 1986));
     }
@@ -221,17 +221,38 @@ public class Lager
 
         ArrayList<Artikel> angabe = new ArrayList<>();
 
+        for (int i = 0; i < zahlArtikel; i++) {
+            if (filterkriterium.test(artikelDB[i])) {
+                angabe.add(artikelDB[i]);
+            }
+            anweisung.accept(artikelDB[i]);
+        }
+        for(Artikel artikel : angabe){
+        System.out.println(artikel);
+    }
+        return angabe;
+    }
+
+    public List<Artikel> getArticles(BiPredicate<Artikel,Artikel> a, Predicate<Artikel> filterkriterium) {
+
+        ArrayList<Artikel> angabe = new ArrayList<>();
+
+        for (int i = 0; i < zahlArtikel; i++){
+            for (int j = i - 1; j >= 0; j--){
+                if (a.test(artikelDB[j] , artikelDB[j + 1])){
+                    Artikel sortiereMich = artikelDB[j];
+                    artikelDB[j] = artikelDB[j + 1];
+                    artikelDB[j + 1] = sortiereMich;
+                }
+            }
+        }
+
         for (Artikel artikel : artikelDB) {
             if (filterkriterium.test(artikel)) {
                 angabe.add(artikel);
             }
-            anweisung.accept(artikel);
         }
         return angabe;
-    }
-
-    public void getArticles(BiPredicate<Artikel,Artikel> a, Predicate<Artikel> filterkriterium) {
-    
     }
 
     // Preissortierung
@@ -246,6 +267,13 @@ public class Lager
     BiPredicate <Artikel,Artikel> sortiereNachAlphabet = (artikel1 ,artikel2) -> 
             (artikel1.getArtikelbezeichnung().toLowerCase().compareTo(artikel2.getArtikelbezeichnung().toLowerCase()) > 0);
 
+    // Filtere nach CDs und erhöhe um 10% am Preis
+    Predicate <Artikel> filterNachCD = (artikel) ->
+            (artikel instanceof CD);
+
+    Consumer <Artikel> erhoeheUmZehnProzent = (artikel) ->
+            (artikel.setartikelpreis(artikel.getArtikelpreis() * 1.1));           
+            
     /**
      * Lager-Objekt als Zeichenkette aufbereiten
      * gemäß Vorgabe Kundenspezifikation aus Übung 9;
