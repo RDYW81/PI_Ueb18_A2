@@ -1,0 +1,30 @@
+#BlueJ class context
+comment0.target=LagerDialog
+comment0.text=\r\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ LagerDialog.\r\n\ \r\n\ @author\ Roland\ Daidone,\ Michael\ Linn\ \r\n\ @version\ 1.1\r\n
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment1.text=\r\n\ Main-Methode\ zum\ Erzeugen\ des\ LagerDialog-Objekts\r\n\ Start\ der\ Testschleife\r\n
+comment10.params=
+comment10.target=double\ skipToNextDouble()
+comment2.params=
+comment2.target=void\ start()
+comment2.text=\r\n\ Hauptschleife\ des\ Programms\r\n
+comment3.params=
+comment3.target=int\ einlesenFunktion()
+comment3.text=\r\n\ Anzeige\ des\ Menues\ und\ Verarbeitung\ der\ Eingabefunktion.\r\n\ \r\n\ @param\ eingegebene\ Funktion\ ist\ ganzzahliger\ Wert\r\n
+comment4.params=
+comment4.target=int\ einlesenUnterfunktion()
+comment4.text=\r\n\ Anzeige\ des\ Untermenues\ unter\ ARTIKELANLEGEN\ und\ Verarbeitung\ der\ Eingabefunktion.\r\n\ \r\n\ @param\ eingegebene\ Funktion\ ist\ ganzzahliger\ Wert\r\n
+comment5.params=funktion
+comment5.target=void\ ausfuehrenFunktion(int)
+comment5.text=\r\n\ Fuehrt\ ausgewaehlte\ Funktion\ aus\r\n\ \r\n\ @param\ funktion\ auszufuehrende\ Funktion\ als\ Eingabe\ durch\ ganze\ Zahl\r\n
+comment6.params=msg
+comment6.target=int\ readInt(java.lang.String)
+comment6.text=\r\n\ Anzeige\ entsprechender\ Nachrichten\ bei\ Einlesen\ (\=Ausfuehrung)\ von\ Funktionen\:\ \r\n\ @param\ int\ -\ gibt\ Ausgabe\ nach\ ganzzahliger\ Eingabe\ wieder\r\n\ @param\ double\ -\ gibt\ Ausgabe\ nach\ Gleitkommavariable-Eingabe\ wieder\r\n\ @param\ String\ -\ gibt\ Ausgabe\ nach\ String-Eingabe\ wieder\r\n\ \r\n\ @return\ MSG\ -\ MSG\ auszugebende\ Nachricht\r\n
+comment7.params=msg
+comment7.target=double\ readDouble(java.lang.String)
+comment8.params=msg
+comment8.target=java.lang.String\ readString(java.lang.String)
+comment9.params=
+comment9.target=int\ skipToNextInt()
+numComments=11

@@ -4,11 +4,14 @@ import java.util.function.*;
  * Lager-Klasse zur Verwaltung mehrerer Artikel, ihrer Anzahl und Preisgestaltung.
  * 
  * @author Roland Daidone, Michael Linn
- * @version 1.7
+ * @version 1.7.1
  */
 public class Lager
 {
     // Benennung des Lagers und Grundstein Array - Lager
+    private static final int ZWEI           =  2;
+    private static final int ZWANZIG        = 20;
+    private static final double ZEHNPROZENT =  1.1;
     private String lager;
     private Artikel [] artikelDB;
     private int zahlArtikel;
@@ -37,7 +40,9 @@ public class Lager
         artikelDB = new Artikel[maxZahlArtikel];
         zahlArtikel = 0;
         artikelAnlegen(new Artikel(1000, "HalliGalli", 20, 20.0));
-        artikelAnlegen(new Buch(1100, "IchbinEinBuch", 25, 60.0, "Das Dilbert-Prinzip", "Dilbert, S. C.", "Remond Verlag"));
+        artikelAnlegen(new Buch(1100, "Roman", 25, 14.99, "Die drei Sonnen", "Cixin, L.", "Heyne"));
+        artikelAnlegen(new Buch(1101, "Novelle", 25, 9.99, "Spiegel", "Cixin, L.", "Heyne"));
+        artikelAnlegen(new Buch(1102, "Fachbuch", 2, 50.0, "Java ist auch eine Insel", "Ullenboom, C.", "Rheinwerk"));
         artikelAnlegen(new CD(1200, "IchBinEineCD", 200, 20.0, "Guns' Roses", "Jungle", 10));
         artikelAnlegen(new DVD(1300, "IchBinEineDVD", 1000, 70.0, "Terminator", 120, 1986));
     }
@@ -227,9 +232,9 @@ public class Lager
             }
             anweisung.accept(artikelDB[i]);
         }
-        for(Artikel artikel : angabe){
+        /*for(Artikel artikel : angabe){
         System.out.println(artikel);
-    }
+        } */
         return angabe;
     }
 
@@ -272,8 +277,26 @@ public class Lager
             (artikel instanceof CD);
 
     Consumer <Artikel> erhoeheUmZehnProzent = (artikel) ->
-            (artikel.setartikelpreis(artikel.getArtikelpreis() * 1.1));           
-            
+            (artikel.setartikelpreis(artikel.getArtikelpreis() * ZEHNPROZENT));
+
+    // Reduziere alle Artikel mit Bestand von 2 um 5%
+    Consumer <Artikel> alleArtikelReduzierenBeiBestandZwei = (artikel) -> {
+            if (artikel.getArtikelbestand() <= ZWEI) {
+                artikel.setartikelpreis(artikel.getArtikelpreis() - artikel.getArtikelpreis()/ZWANZIG);
+            }
+        };
+
+    // Reduziere alle Bücher eines Autors um 5%
+    Predicate <Artikel> filterNachBuch = (artikel) ->
+            (artikel instanceof Buch);
+
+    Consumer <Artikel> senkeUmFuenfProzentNachAutor = (artikel) -> {
+            Buch b = (Buch) artikel;
+            if (b.getAutor().equals("Cixin, L.")) {
+                artikel.setartikelpreis(artikel.getArtikelpreis() - artikel.getArtikelpreis()/ZWANZIG);
+            }
+        };
+
     /**
      * Lager-Objekt als Zeichenkette aufbereiten
      * gemäß Vorgabe Kundenspezifikation aus Übung 9;
@@ -296,9 +319,13 @@ public class Lager
         System.out.print ("--------------------------------------------------------------------------------------------------\n"
             + "Gesamtwert:                                                                               ");
         System.out.format("%7.2f\n\n",gesamtwert);  
-
     }
 
+    /**
+     * Check-Methode, die eine Bedingung auf wahr oder falsch prüft und Fehlermeldung ausgibt
+     * 
+     * @param bedingung gibt Bedingung zurück
+     */
     private static void check(boolean bedingung, String msg) {
         if (!bedingung)
             throw new IllegalArgumentException(msg);

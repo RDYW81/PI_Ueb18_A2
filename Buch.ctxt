@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Buch
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Buch\ here.\r\n\r\n\ @author\ Roland\ Daidone,\ Michael\ Linn\r\n\ @version\ 1.0\r\n
+comment1.params=artikelnummer\ artikelbezeichnung\ artikelbestand\ artikelpreis\ titel\ autor\ verlag
+comment1.target=Buch(int,\ java.lang.String,\ int,\ double,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment1.text=\ \r\n\ \ Buch-Objekt\ Konstruktor\r\n\ \ \r\n\ \ Methoden\ bzw.\ Operatoren\ -\ Definition\ eines\ Buch-Objekts\r\n\ \ \r\n\ \ @param\ artikelnummer\ \ \ \ -\ die\ wiederzugebende\ Artikelnummer\r\n\ \ @param\ bezeichnung\ \ \ \ \ \ -\ die\ wiederzugebende\ Bezeichnung\r\n\ \ @param\ bestand\ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Bestand\r\n\ \ @param\ preis\ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Preis\r\n\ \ @param\ titel\ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Titel\ des\ Buches\r\n\ \ @param\ autor\ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Autor\ des\ Buches\r\n\ \ @param\ verlag\ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Verlag\ des\ Buches\r\n
+comment2.params=
+comment2.target=java.lang.String\ getTitel()
+comment2.text=\r\n\ Gibt\ Buch-Titel\ zur\u00FCck\r\n
+comment3.params=
+comment3.target=java.lang.String\ getAutor()
+comment3.text=\r\n\ Gibt\ Autor\ zur\u00FCck\r\n
+comment4.params=
+comment4.target=java.lang.String\ getVerlag()
+comment4.text=\r\n\ Gibt\ Verlag\ zur\u00FCck\r\n
+comment5.params=
+comment5.target=java.lang.String\ getBeschreibung()
+comment5.text=\r\n\ Bezieht\ sich\ auf\ die\ \u00FCbergeordnete\ Klasse\ Artikel\r\n\ und\ gibt\ den\ Autor\ und\ den\ Buch-Titel\ zur\u00FCck\r\n
+comment6.params=bedingung\ msg
+comment6.target=void\ check(boolean,\ java.lang.String)
+numComments=7

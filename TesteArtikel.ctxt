@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=TesteArtikel
+comment0.text=\r\n\ Testen\ zum\ ausgeben\ der\ Vererbung\r\n\ \r\n\ @author\ (Ihr\ Name)\ \r\n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\r\n
+comment1.params=
+comment1.target=void\ start()
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
+numComments=3

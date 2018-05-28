@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=CD
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ CD\ here.\r\n\r\n\ @author\ Roland\ Daidone,\ Michael\ Linn\r\n\ @version\ 1.0\r\n
+comment1.params=artikelnummer\ artikelbezeichnung\ artikelbestand\ artikelpreis\ interpret\ titel\ anzahlMusiktitel
+comment1.target=CD(int,\ java.lang.String,\ int,\ double,\ java.lang.String,\ java.lang.String,\ int)
+comment1.text=\ \r\n\ \ CD-Objekt\ Konstruktor\r\n\ \ \r\n\ \ Methoden\ bzw.\ Operatoren\ -\ Definition\ eines\ CD-Objekts\r\n\ \ \r\n\ \ @param\ artikelnummer\ \ \ \ -\ die\ wiederzugebende\ Artikelnummer\r\n\ \ @param\ bezeichnung\ \ \ \ \ \ -\ die\ wiederzugebende\ Bezeichnung\r\n\ \ @param\ bestand\ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Bestand\r\n\ \ @param\ preis\ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Preis\r\n\ \ @param\ interpret\ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Interpret\ der\ Musik\r\n\ \ @param\ titel\ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Titel\ der\ CD\r\n\ \ @param\ anzahlMusiktitel\ -\ die\ wiederzugebende\ Anzahl\ der\ Musiktitel\r\n
+comment2.params=
+comment2.target=java.lang.String\ getInterpret()
+comment2.text=\r\n\ Gibt\ Interpret\ der\ Musik\ zur\u00FCck\r\n
+comment3.params=
+comment3.target=java.lang.String\ getTitel()
+comment3.text=\r\n\ Gibt\ Titel\ der\ CD\ zur\u00FCck\r\n
+comment4.params=
+comment4.target=int\ getAnzahlMusiktitel()
+comment4.text=\r\n\ Gibt\ Anzahl\ der\ Musiktitel\ zur\u00FCck\r\n
+comment5.params=
+comment5.target=java.lang.String\ getBeschreibung()
+comment5.text=\r\n\ Bezieht\ sich\ auf\ die\ \u00FCbergeordnete\ Klasse\ Artikel\r\n\ und\ gibt\ den\ Interpret\ der\ Musik\ und\ den\ Titel\ der\ CD\ zur\u00FCck\r\n
+comment6.params=bedingung\ msg
+comment6.target=void\ check(boolean,\ java.lang.String)
+numComments=7

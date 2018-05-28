@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=DVD
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ DVD\ here.\r\n\r\n\ @author\ Roland\ Daidone,\ Michael\ Linn\r\n\ @version\ 1.0\r\n
+comment1.params=artikelnummer\ artikelbezeichnung\ artikelbestand\ artikelpreis\ titel\ spieldauerInMinuten\ erscheinungsjahr
+comment1.target=DVD(int,\ java.lang.String,\ int,\ double,\ java.lang.String,\ int,\ int)
+comment1.text=\ \r\n\ \ DVD-Objekt\ Konstruktor\r\n\ \ \r\n\ \ Methoden\ bzw.\ Operatoren\ -\ Definition\ eines\ DVD-Objekts\r\n\ \ \r\n\ \ @param\ artikelnummer\ \ \ \ \ \ \ \ -\ die\ wiederzugebende\ Artikelnummer\r\n\ \ @param\ bezeichnung\ \ \ \ \ \ \ \ \ \ -\ die\ wiederzugebende\ Bezeichnung\r\n\ \ @param\ bestand\ \ \ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Bestand\r\n\ \ @param\ preis\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Preis\r\n\ \ @param\ titel\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\ der\ wiederzugebende\ Titel\ des\ Films\ auf\ DVD\r\n\ \ @param\ spieldauerInMinuten\ \ -\ die\ wiederzugebende\ Spieldauer\ des\ Films\ in\ Minuten\r\n\ \ @param\ erscheinungsjahr\ \ \ \ \ -\ das\ wiederzugebende\ Erscheinungsjahr\ des\ Films\ zwischen\ 1950\ und\ 2014\r\n
+comment2.params=
+comment2.target=java.lang.String\ getTitel()
+comment2.text=\r\n\ Gibt\ Filmtitel\ zur\u00FCck\r\n
+comment3.params=
+comment3.target=int\ getSpieldauerProMinute()
+comment3.text=\r\n\ Gibt\ Spieldauer\ in\ Minuten\ zur\u00FCck\r\n
+comment4.params=
+comment4.target=int\ getErscheinungsjahr()
+comment4.text=\r\n\ Gibt\ Erscheinungsjahr\ zur\u00FCck\r\n
+comment5.params=
+comment5.target=java.lang.String\ getBeschreibung()
+comment5.text=\r\n\ Bezieht\ sich\ auf\ die\ \u00FCbergeordnete\ Klasse\ Artikel\r\n\ und\ gibt\ den\ DVD-Titel\ zur\u00FCck\r\n
+comment6.params=bedingung\ msg
+comment6.target=void\ check(boolean,\ java.lang.String)
+numComments=7
