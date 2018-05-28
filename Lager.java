@@ -4,7 +4,7 @@ import java.util.function.*;
  * Lager-Klasse zur Verwaltung mehrerer Artikel, ihrer Anzahl und Preisgestaltung.
  * 
  * @author Roland Daidone, Michael Linn
- * @version 1.6
+ * @version 1.7
  */
 public class Lager
 {
