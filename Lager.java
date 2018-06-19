@@ -200,13 +200,17 @@ public class Lager
      * @return  Zeichenkette
      * 
      */
-    public String toString() {
+    public String toString(Artikel artikel) {
         String ausgabe = lager + '\n';
         for (int i = 0; i < zahlArtikel; i++) {
             ausgabe = ausgabe + i + ": " + artikelDB[i] + '\n';
         }
         return ausgabe;
     }
+    public void toString2(){
+        String ausgabe = null;
+        
+    }   
     //Map
     public int getSize(){
         return artikelMap.size();
@@ -252,9 +256,10 @@ public class Lager
      * @param anweisung gibt Anweisung wieder
      */
     public void applyToArticles(Consumer<Artikel> anweisung) {
-        for (Artikel artikel : artikelMap.values()) {
-            anweisung.accept(artikel);
-        }
+       // for (Artikel artikel : artikelMap.values()) {
+        //    anweisung.accept(artikel);
+       // }
+        artikelMap.forEach((k,v) -> anweisung.accept(v));
     } 
 
     /**
@@ -274,8 +279,7 @@ public class Lager
 
     public List<Artikel> getArticles(BiPredicate<Artikel,Artikel> a, Predicate<Artikel> filterkriterium) {
 
-        ArrayList<Artikel> angabe = new ArrayList<>();
-
+        ArrayList<Artikel> angabe = new ArrayList<>();        
         for (Artikel artikel : artikelMap.values()) {
             if (filterkriterium.test(artikel)) {
                 angabe.add(artikel);
@@ -293,7 +297,10 @@ public class Lager
         }
         return angabe;
     }
-
+    public void minimain (){
+        filter(filterNachCD);
+        
+    }
     // Preissortierung
     BiPredicate <Artikel,Artikel> sortiereNachPreis   = (artikel1 ,artikel2)  -> 
             (artikel1.getArtikelpreis() > artikel2.getArtikelpreis());
