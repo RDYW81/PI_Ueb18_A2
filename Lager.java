@@ -15,11 +15,18 @@ public class Lager
     private String lager;
     private Artikel [] artikelDB;
     private int zahlArtikel;
-
+    
+    
+    //Map
+    TreeMap<Integer,Artikel> artikelMap;    
+    
+    // Iterator
+    Iterator iterator;
+    
     // Fehlermeldungen
     private static final String MSG_ARTIKEL_NICHT_VORHANDEN =
         "Artikel nicht vorhanden!";
-    private static final String MSG_ARTIKEL_ANLEGEN =
+    private static  final String MSG_ARTIKEL_ANLEGEN =
         "Artikel nicht anlegbar!";
     private static final String MSG_ARTIKEL_VORHANDEN =
         "Artikel bereits vorhanden!";
@@ -28,16 +35,18 @@ public class Lager
     private static final String MSG_MAX_ANZ_ARTIKEL =
         "Die Zahl der Artikel muss > 0 sein!";
 
+        
     /**
      * Konstruktor für Objekte der Klasse Lager
      * 
      * @param lager Lager (Name des Lagers)
      * @param maxAnzArtikel maximale Anzahl festzulegender Artikel
      */
-    public Lager(String lager, int maxZahlArtikel) {
-        check(maxZahlArtikel > 0, MSG_MAX_ANZ_ARTIKEL);
+    public Lager(String lager) {
+        artikelMap = new TreeMap<Integer,Artikel>();
+        check (lager != null, "Name Eingeben!");
         this.lager = lager;
-        artikelDB = new Artikel[maxZahlArtikel];
+        
         zahlArtikel = 0;
         artikelAnlegen(new Artikel(1000, "HalliGalli", 20, 20.0));
         artikelAnlegen(new Buch(1100, "Roman", 25, 14.99, "Die drei Sonnen", "Cixin, L.", "Heyne"));
@@ -45,8 +54,15 @@ public class Lager
         artikelAnlegen(new Buch(1102, "Fachbuch", 2, 50.0, "Java ist auch eine Insel", "Ullenboom, C.", "Rheinwerk"));
         artikelAnlegen(new CD(1200, "IchBinEineCD", 200, 20.0, "Guns' Roses", "Jungle", 10));
         artikelAnlegen(new DVD(1300, "IchBinEineDVD", 1000, 70.0, "Terminator", 120, 1986));
+         
+        
+        
     }
-
+/**    public void fehlerErzeugen(){
+    *    artikelAnlegen(new Artikel(1000, "HalliGalli", 20, 20.0));
+    *    artikelAnlegen(new Buch(1100, "Roman", 25, 14.99, "Die drei Sonnen", "Cixin, L.", "Heyne")); 
+    }*/
+    
     /**
      * Anlegen eines Artikels. 
      * Prüfung, ob Artikelnummer bereits vergeben ist
@@ -56,13 +72,12 @@ public class Lager
      * @param  artikelbezeichnung -  Bezeichnung des Artikels
      */ 
     public void artikelAnlegen(Artikel artikel) {
-        check(findeArtikel(artikel.getArtikelnummer()) < 0, MSG_ARTIKEL_VORHANDEN);
-        check(zahlArtikel < artikelDB.length, MSG_ARTIKEL_ANLEGEN);
-
-        artikelDB[zahlArtikel] = artikel;
+       
+        check  ( findeArtikelMap(artikel.getArtikelnummer()) == true , MSG_ARTIKEL_VORHANDEN); 
+        artikelMap.put(artikel.getArtikelnummer() ,artikel);
         zahlArtikel++;
     }
-
+    
     /** 
      * Artikel um Bestand X erhöhen  
      * 
@@ -70,9 +85,14 @@ public class Lager
      * @param  bestand - zuzubuchender Bestand (Addition)
      */
     public void zugangsBuchung(int artikelnummer, int bestand) {
-        int i = findeArtikel(artikelnummer);
-        check(i >= 0, MSG_ARTIKEL_NICHT_VORHANDEN);
-        artikelDB[i].zugangsBuchung(bestand); 
+        
+        //map versuch
+        Artikel a;
+        if ( findeArtikelMap(artikelnummer) == false){
+        a = artikelMap.get(artikelnummer);
+        a.zugangsBuchung(bestand);
+        artikelMap.replace(artikelnummer , a);
+       }
     }
 
     /** 
@@ -82,9 +102,13 @@ public class Lager
      * @param  bestand - abzubuchender Bestand (Subtraktion)
      */
     public void zugangsAbbuchung(int artikelnummer, int bestand) {
-        int i = findeArtikel(artikelnummer);
-        check(i >= 0, MSG_ARTIKEL_NICHT_VORHANDEN);
-        artikelDB[i].zugangsAbbuchung(bestand); 
+        
+        //Map versuch
+        Artikel a;
+        check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
+        a = artikelMap.get(artikelnummer);
+        a.zugangsAbbuchung(bestand);
+        artikelMap.replace(artikelnummer , a);
     }
 
     /**
@@ -94,9 +118,13 @@ public class Lager
      * @param preis - Artikelpreis wird definiert
      */
     public void artikelpreisDefinieren(int artikelnummer, double artikelpreis) {
-        int i = findeArtikel(artikelnummer);
-        check (i >= 0, MSG_ARTIKEL_NICHT_VORHANDEN);
-        artikelDB[i].setartikelpreis(artikelpreis);
+        
+      //Map
+        Artikel a;
+        check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
+        a = artikelMap.get(artikelnummer);
+        a.setartikelpreis(artikelpreis);
+        artikelMap.replace(artikelnummer, a);
     }
 
     /**
@@ -106,10 +134,13 @@ public class Lager
      * @param artikelpreis - Artikelpreis wird um X-Prozent erhöht
      */
 
-    public void artikelpreisErhoehung (int artikelnummer, double artikelpreis) {
-        int i = findeArtikel(artikelnummer);
-        check (i >= 0, MSG_ARTIKEL_NICHT_VORHANDEN);
-        artikelDB[i].preisErhoehung(artikelpreis);
+    public void artikelpreisErhoehung (int artikelnummer, double artikelpreis) { 
+        //map 
+        Artikel a;
+        check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
+        a = artikelMap.get(artikelnummer);
+        a.setartikelpreis(artikelpreis);
+        artikelMap.replace(artikelnummer, a);
     }
 
     /**
@@ -120,9 +151,12 @@ public class Lager
      */
 
     public void artikelpreisSenkung (int artikelnummer, double artikelpreis) {
-        int i = findeArtikel(artikelnummer);
-        check (i >= 0, MSG_ARTIKEL_NICHT_VORHANDEN);
-        artikelDB[i].preisSenkung(artikelpreis);
+        //map
+        Artikel a;
+        check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
+        a = artikelMap.get(artikelnummer);
+        a.setartikelpreis(artikelpreis);
+        artikelMap.replace(artikelnummer, a);
     }
 
     /** 
@@ -130,17 +164,19 @@ public class Lager
      * 
      * @param  artikelnummer - zu uebergebende Artikelnummer
      */
-    public void delArtikel(int artikelnummer) {
-        int i = findeArtikel(artikelnummer);
-
-        if (i >= 0) {
-            for (int j = i; j < zahlArtikel-1; j++)
-                artikelDB[j] = artikelDB [j+1];
-            artikelDB[zahlArtikel-1] = null;
-            zahlArtikel--;
+   
+    
+    public void delItem(int aNummer){
+        if ( findeArtikelMap(aNummer) == false){
+         artikelMap.values().remove(aNummer);
+         zahlArtikel--;
         }
     }
 
+    public void delAll(){
+        artikelMap.clear();
+        zahlArtikel = 0;
+    }
     /** 
      * Interne Methode findeArtikel zur Vereinfachung anderer Methoden
      * 
@@ -148,14 +184,15 @@ public class Lager
      * @return Index des gesuchten Artikels oder -1
      * 
      */
-    private int findeArtikel(int artikelnummer) {
-        for (int i = 0; i < zahlArtikel; i++) {
-            if (artikelDB[i].getArtikelnummer() == artikelnummer)
-                return i;
-        }
-        return -1; 
+    
+    //Map
+    private boolean findeArtikelMap(int artikelnummer){
+      if( artikelMap.containsKey(artikelnummer ))
+         return false; //Artikelnummer existiert bereits
+      return true; //Artikelnummer existiert nicht
     }
-
+    
+    
     /** 
      * Lager-Objekt als Zeichenkette aufbereiten;
      * verwendet implizit die toString-Methode von Artikel
@@ -170,7 +207,10 @@ public class Lager
         }
         return ausgabe;
     }
-
+    //Map
+    public int getSize(){
+        return artikelMap.size();
+    }
     /**
      * Insertion-Sort-Verfahren zur Sortierung der Artikel, welches von nachfolgenden Lambda-Ausdrücken
      * bedient wird.
@@ -195,22 +235,24 @@ public class Lager
     public ArrayList<Artikel> filter(Predicate<Artikel> filterkriterium) {
 
         ArrayList<Artikel> angabe = new ArrayList<>();
-
-        for (Artikel artikel : artikelDB) {
+        Set set = artikelMap.entrySet();
+        iterator =  set.iterator();
+        while(iterator.hasNext()){        
+        for (Artikel artikel : artikelMap.values()) {
             if (filterkriterium.test(artikel)) {
                 angabe.add(artikel);
             }
         }
-        return angabe;
     } 
-
+    return angabe;
+     }
     /**
      * Methode, welche eine bestimmte Anweisung auf die Artikel im Lager anwendet
      * 
      * @param anweisung gibt Anweisung wieder
      */
     public void applyToArticles(Consumer<Artikel> anweisung) {
-        for (Artikel artikel : artikelDB) {
+        for (Artikel artikel : artikelMap.values()) {
             anweisung.accept(artikel);
         }
     } 
@@ -222,25 +264,23 @@ public class Lager
      * @param filterkriterium gibt Filterkriterium wieder
      * @param anweisung gibt Anweisung wieder
      */
-    public ArrayList<Artikel> applytoSomeArticles(Consumer<Artikel> anweisung, Predicate<Artikel> filterkriterium) {
-
-        ArrayList<Artikel> angabe = new ArrayList<>();
-
+    public void applytoSomeArticles(Consumer<Artikel> anweisung, Predicate<Artikel> filterkriterium) {
         for (int i = 0; i < zahlArtikel; i++) {
             if (filterkriterium.test(artikelDB[i])) {
-                angabe.add(artikelDB[i]);
+              anweisung.accept(artikelDB[i]);
             }
-            anweisung.accept(artikelDB[i]);
         }
-        /*for(Artikel artikel : angabe){
-        System.out.println(artikel);
-        } */
-        return angabe;
     }
 
     public List<Artikel> getArticles(BiPredicate<Artikel,Artikel> a, Predicate<Artikel> filterkriterium) {
 
         ArrayList<Artikel> angabe = new ArrayList<>();
+
+        for (Artikel artikel : artikelMap.values()) {
+            if (filterkriterium.test(artikel)) {
+                angabe.add(artikel);
+            }
+        }
 
         for (int i = 0; i < zahlArtikel; i++){
             for (int j = i - 1; j >= 0; j--){
@@ -249,12 +289,6 @@ public class Lager
                     artikelDB[j] = artikelDB[j + 1];
                     artikelDB[j + 1] = sortiereMich;
                 }
-            }
-        }
-
-        for (Artikel artikel : artikelDB) {
-            if (filterkriterium.test(artikel)) {
-                angabe.add(artikel);
             }
         }
         return angabe;
@@ -275,16 +309,13 @@ public class Lager
     // Filtere nach CDs und erhöhe um 10% am Preis
     Predicate <Artikel> filterNachCD = (artikel) ->
             (artikel instanceof CD);
+            
+    // Reduziere alle Artikel mit Bestand von 2 um 5%
+    Predicate <Artikel> bestandZwei = (artikel) ->
+             artikel.getArtikelbestand() == ZWEI;
 
     Consumer <Artikel> erhoeheUmZehnProzent = (artikel) ->
             (artikel.setartikelpreis(artikel.getArtikelpreis() * ZEHNPROZENT));
-
-    // Reduziere alle Artikel mit Bestand von 2 um 5%
-    Consumer <Artikel> alleArtikelReduzierenBeiBestandZwei = (artikel) -> {
-            if (artikel.getArtikelbestand() <= ZWEI) {
-                artikel.setartikelpreis(artikel.getArtikelpreis() - artikel.getArtikelpreis()/ZWANZIG);
-            }
-        };
 
     // Reduziere alle Bücher eines Autors um 5%
     Predicate <Artikel> filterNachBuch = (artikel) ->

@@ -75,7 +75,7 @@ public class LagerDialog
      * Hauptschleife des Programms
      */
     public void start() {
-        lager = new Lager ("Warenlager", 20);
+        lager = new Lager ("Warenlager");
         int funktion = -1;
 
         while (funktion !=ENDE) {
@@ -212,7 +212,7 @@ public class LagerDialog
                 break;
 
             case ARTIKELLOESCHEN:
-                lager.delArtikel(readInt(MSG_ARTIKELNUMMER));
+                lager.delItem(readInt(MSG_ARTIKELNUMMER));
                 break;
                 
             case AUSGABEBESTANDSLISTE:

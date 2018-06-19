@@ -1,3 +1,7 @@
+import java.util.*;
+
+
+
 /**
  * Eine einfache Artikel-Klasse.
  * 
