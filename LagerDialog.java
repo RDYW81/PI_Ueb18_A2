@@ -75,7 +75,7 @@ public class LagerDialog
      * Hauptschleife des Programms
      */
     public void start() {
-        lager = new Lager ("Warenlager");
+        lager = new Lager ();
         int funktion = -1;
 
         while (funktion !=ENDE) {

@@ -1,12 +1,15 @@
 import java.util.*;
-import java.util.function.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+import java.util.function.*;    
 /**
  * Lager-Klasse zur Verwaltung mehrerer Artikel, ihrer Anzahl und Preisgestaltung.
  * 
  * @author Roland Daidone, Michael Linn
  * @version 1.7.1
  */
-public class Lager
+public class Lager implements Iterable <Artikel>
 {
     // Benennung des Lagers und Grundstein Array - Lager
     private static final int ZWEI           =  2;
@@ -42,10 +45,9 @@ public class Lager
      * @param lager Lager (Name des Lagers)
      * @param maxAnzArtikel maximale Anzahl festzulegender Artikel
      */
-    public Lager(String lager) {
+    public Lager() {
         artikelMap = new TreeMap<Integer,Artikel>();
-        check (lager != null, "Name Eingeben!");
-        this.lager = lager;
+        lager = "Artikellager-treemaps-SaarbrueckenSE";
         
         zahlArtikel = 0;
         artikelAnlegen(new Artikel(1000, "HalliGalli", 20, 20.0));
@@ -58,6 +60,7 @@ public class Lager
         
         
     }
+    
 /**    public void fehlerErzeugen(){
     *    artikelAnlegen(new Artikel(1000, "HalliGalli", 20, 20.0));
     *    artikelAnlegen(new Buch(1100, "Roman", 25, 14.99, "Die drei Sonnen", "Cixin, L.", "Heyne")); 
@@ -136,11 +139,15 @@ public class Lager
 
     public void artikelpreisErhoehung (int artikelnummer, double artikelpreis) { 
         //map 
-        Artikel a;
-        check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
-        a = artikelMap.get(artikelnummer);
-        a.setartikelpreis(artikelpreis);
-        artikelMap.replace(artikelnummer, a);
+        // Artikel a;
+        // check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
+        // a = artikelMap.get(artikelnummer);
+        // a.setartikelpreis(a.getArtikelpreis()*artikelpreis);
+        // artikelMap.replace(artikelnummer, a);
+        
+        for (Artikel artikel :this){
+            artikel.setartikelpreis(artikel.getArtikelpreis()*artikelpreis);
+        }
     }
 
     /**
@@ -151,12 +158,16 @@ public class Lager
      */
 
     public void artikelpreisSenkung (int artikelnummer, double artikelpreis) {
-        //map
-        Artikel a;
-        check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
-        a = artikelMap.get(artikelnummer);
-        a.setartikelpreis(artikelpreis);
-        artikelMap.replace(artikelnummer, a);
+        //map manuel viel zu viel, aufwand :x
+        // Artikel a;
+        // check ( findeArtikelMap(artikelnummer) == false,MSG_ARTIKEL_NICHT_VORHANDEN);
+        // a = artikelMap.get(artikelnummer);
+        // a.setartikelpreis(a.getArtikelpreis()-artikelpreis);
+        // artikelMap.replace(artikelnummer, a);
+        
+        for (Artikel artikel : this){
+            artikel.setartikelpreis(artikel.getArtikelpreis()+artikel.getArtikelpreis()/100*artikelpreis);      
+        }
     }
 
     /** 
@@ -200,17 +211,17 @@ public class Lager
      * @return  Zeichenkette
      * 
      */
-    public String toString(Artikel artikel) {
+    public String toString() {
         String ausgabe = lager + '\n';
-        for (int i = 0; i < zahlArtikel; i++) {
-            ausgabe = ausgabe + i + ": " + artikelDB[i] + '\n';
+        int i=0;
+        for (Artikel art : this) {
+           // ausgabe = ausgabe + i + ": " + artikelDB[i] + '\n';
+            ausgabe += i+": "+art.toString()+'\n';
+            i++;
         }
         return ausgabe;
     }
-    public void toString2(){
-        String ausgabe = null;
-        
-    }   
+   
     //Map
     public int getSize(){
         return artikelMap.size();
@@ -219,16 +230,8 @@ public class Lager
      * Insertion-Sort-Verfahren zur Sortierung der Artikel, welches von nachfolgenden Lambda-Ausdrücken
      * bedient wird.
      */
-    public void getSorted(BiPredicate<Artikel,Artikel> a) {
-        for (int i = 0; i < zahlArtikel; i++){
-            for (int j = i - 1; j >= 0; j--){
-                if (a.test(artikelDB[j] , artikelDB[j + 1])){
-                    Artikel sortiereMich = artikelDB[j];
-                    artikelDB[j] = artikelDB[j + 1];
-                    artikelDB[j + 1] = sortiereMich;
-                }
-            }
-        }
+    public List<Artikel> getSorted(BiPredicate<Artikel,Artikel> a) {
+        return stream().sorted((k,v) -> a.test(k,v) ? 1: -1).collect(Collectors.toList());
     }
 
     /**
@@ -236,20 +239,21 @@ public class Lager
      * 
      * @param filterkriterium gibt Filterkriterium wieder
      */
-    public ArrayList<Artikel> filter(Predicate<Artikel> filterkriterium) {
-
-        ArrayList<Artikel> angabe = new ArrayList<>();
-        Set set = artikelMap.entrySet();
-        iterator =  set.iterator();
-        while(iterator.hasNext()){        
-        for (Artikel artikel : artikelMap.values()) {
-            if (filterkriterium.test(artikel)) {
-                angabe.add(artikel);
-            }
-        }
-    } 
-    return angabe;
-     }
+    public List<Artikel> filter(Predicate<Artikel> filterkriterium) {
+        return stream().filter(filterkriterium).collect(Collectors.toList());
+        // ArrayList<Artikel> angabe = new ArrayList<>();
+        // Set set = artikelMap.entrySet();
+        // iterator =  set.iterator();
+        // while(iterator.hasNext()){        
+        // for (Artikel artikel : artikelMap.values()) {
+            // if (filterkriterium.test(artikel)) {
+                // angabe.add(artikel);
+            // }
+        // }
+    // } 
+    // return angabe;
+       
+    }
     /**
      * Methode, welche eine bestimmte Anweisung auf die Artikel im Lager anwendet
      * 
@@ -259,7 +263,8 @@ public class Lager
        // for (Artikel artikel : artikelMap.values()) {
         //    anweisung.accept(artikel);
        // }
-        artikelMap.forEach((k,v) -> anweisung.accept(v));
+       // artikelMap.forEach((k,v) -> anweisung.accept(v));
+       stream().forEach(v -> anweisung.accept(v));
     } 
 
     /**
@@ -271,36 +276,61 @@ public class Lager
      */
     public void applytoSomeArticles(Consumer<Artikel> anweisung, Predicate<Artikel> filterkriterium) {
         for (int i = 0; i < zahlArtikel; i++) {
-            if (filterkriterium.test(artikelDB[i])) {
-              anweisung.accept(artikelDB[i]);
-            }
+            stream().filter(filterkriterium).forEach(anweisung);
         }
     }
-
+    /**
+     * 
+     */
     public List<Artikel> getArticles(BiPredicate<Artikel,Artikel> a, Predicate<Artikel> filterkriterium) {
 
-        ArrayList<Artikel> angabe = new ArrayList<>();        
-        for (Artikel artikel : artikelMap.values()) {
-            if (filterkriterium.test(artikel)) {
-                angabe.add(artikel);
-            }
-        }
+        // ArrayList<Artikel> angabe = new ArrayList<>();        
+        // for (Artikel artikel : artikelMap.values()) {
+            // if (filterkriterium.test(artikel)) {
+                // angabe.add(artikel);
+            // }
+        // }
 
-        for (int i = 0; i < zahlArtikel; i++){
-            for (int j = i - 1; j >= 0; j--){
-                if (a.test(artikelDB[j] , artikelDB[j + 1])){
-                    Artikel sortiereMich = artikelDB[j];
-                    artikelDB[j] = artikelDB[j + 1];
-                    artikelDB[j + 1] = sortiereMich;
-                }
-            }
-        }
-        return angabe;
+        // for (int i = 0; i < zahlArtikel; i++){
+            // for (int j = i - 1; j >= 0; j--){
+                // if (a.test(artikelDB[j] , artikelDB[j + 1])){
+                    // Artikel sortiereMich = artikelDB[j];
+                    // artikelDB[j] = artikelDB[j + 1];
+                    // artikelDB[j + 1] = sortiereMich;
+                // }
+            // }
+        // }
+        // return angabe;
+        
+        return stream().filter(filterkriterium).sorted((k,v) -> a.test(k,v)?1:-1).collect(Collectors.toList());
     }
     public void minimain (){
         filter(filterNachCD);
         
     }
+    public Stream<Artikel> stream() {
+		return StreamSupport.stream(this.spliterator(), false);
+	}
+	
+    @Override
+    public Iterator<Artikel> iterator(){
+        return new Iterator<Artikel>(){
+            
+            Iterator<Integer> iter = artikelMap.keySet().iterator();
+            
+            @Override 
+            public boolean hasNext(){
+                
+                return iter.hasNext();
+            }
+            
+            @Override
+            public Artikel next(){
+                return artikelMap.get(iter.next());
+            }
+    };
+}
+
     // Preissortierung
     BiPredicate <Artikel,Artikel> sortiereNachPreis   = (artikel1 ,artikel2)  -> 
             (artikel1.getArtikelpreis() > artikel2.getArtikelpreis());
@@ -346,8 +376,7 @@ public class Lager
         System.out.println("\nLagerort: Alt-Saarbrücken\n\n"
             + "ArtNr    Beschreibung                                       Preis         Bestand          Gesamt  \n"
             + "--------------------------------------------------------------------------------------------------");
-        for (int i = 0; i < zahlArtikel; i++) {
-            Artikel aktuellerArtikel = artikelDB[i];
+        for (Artikel aktuellerArtikel: this) {            
             double gesamt = aktuellerArtikel.getArtikelpreis()*aktuellerArtikel.getArtikelbestand();
             gesamtwert = gesamt + gesamtwert;
             System.out.format ("%-7d%-53.53s%-14.2f%-10d%13.2f\n",aktuellerArtikel.getArtikelnummer(), 
