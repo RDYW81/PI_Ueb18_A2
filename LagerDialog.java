@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 /**
  * Beschreiben Sie hier die Klasse LagerDialog.
- * 
+ * +
  * @author Roland Daidone, Michael Linn 
  * @version 1.1
  */
